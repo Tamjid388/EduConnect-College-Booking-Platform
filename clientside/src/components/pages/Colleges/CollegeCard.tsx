@@ -1,0 +1,52 @@
+"use client"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+interface College {
+  id: string;
+  name: string;
+  image: string;
+  rating: number;
+  admissionDate: string;
+  researchCount: number;
+  // add other fields as needed
+}
+
+interface CollegeCardProps {
+  colleges: College[];
+}
+export default function CollegeCard({colleges}:{colleges:any[]}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 my-6 gap-6">
+        {
+            colleges.map(college=><Card className="pt-0">
+   <figure className=" h-[200px] ">
+    <img
+    className="mt-0 h-full w-full object-cover rounded-t-md" 
+    src={college.image}
+    alt="college.name" />
+    </figure>             
+  <CardHeader className="">
+    
+    <CardTitle>{college.name}</CardTitle>
+    <CardDescription>{college.location}</CardDescription>
+    {/* <CardAction>Card Action</CardAction> */}
+  </CardHeader>
+  <CardContent>
+    {/* <p>Card Content</p> */}
+  </CardContent>
+  <CardFooter>
+   <Button className="bg-primarycolor">View Details</Button>
+  </CardFooter>
+</Card>)
+        }
+    </div>
+  )
+}
