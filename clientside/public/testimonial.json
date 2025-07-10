@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Tamanna Rahman",
+    "university": "University of Dhaka",
+    "review": "Historic campus with excellent faculty. Competitive environment helps with academic growth.",
+    "date": "2024-01-15",
+    "rating": 5,
+    "image": "https://ui-avatars.com/api/?name=Tamanna+Rahman&background=random"
+  },
+  {
+    "name": "Sabbir Ahmed",
+    "university": "Bangladesh University of Engineering and Technology",
+    "review": "Highly reputed for engineering. The curriculum is tough but rewarding if you're dedicated.",
+    "date": "2024-02-10",
+    "rating": 5,
+    "image": "https://ui-avatars.com/api/?name=Sabbir+Ahmed&background=random"
+  },
+  {
+    "name": "Nusrat Jahan",
+    "university": "Jahangirnagar University",
+    "review": "Peaceful and green campus. Residential facilities are great, and cultural activities are frequent.",
+    "date": "2024-03-08",
+    "rating": 4,
+    "image": "https://ui-avatars.com/api/?name=Nusrat+Jahan&background=random"
+  },
+  {
+    "name": "Rashedul Islam",
+    "university": "North South University",
+    "review": "Top private university with modern facilities and a good academic environment.",
+    "date": "2024-03-25",
+    "rating": 4,
+    "image": "https://ui-avatars.com/api/?name=Rashedul+Islam&background=random"
+  },
+  {
+    "name": "Farzana Kabir",
+    "university": "BRAC University",
+    "review": "Excellent teaching methods and supportive faculty. The environment encourages innovation.",
+    "date": "2024-04-12",
+    "rating": 5,
+    "image": "https://ui-avatars.com/api/?name=Farzana+Kabir&background=random"
+  },
+  {
+    "name": "Tanvir Hasan",
+    "university": "East West University",
+    "review": "Good campus life and strong faculty members. The administration is responsive and helpful.",
+    "date": "2024-05-04",
+    "rating": 4,
+    "image": "https://ui-avatars.com/api/?name=Tanvir+Hasan&background=random"
+  },
+  {
+    "name": "Meherin Akter",
+    "university": "American International University-Bangladesh",
+    "review": "Great for computer science and business programs. Facilities are well-maintained.",
+    "date": "2024-05-22",
+    "rating": 4,
+    "image": "https://ui-avatars.com/api/?name=Meherin+Akter&background=random"
+  },
+  {
+    "name": "Md. Imran Hossain",
+    "university": "Islamic University of Technology",
+    "review": "Strong technical education and international environment. Campus is clean and secure.",
+    "date": "2024-06-10",
+    "rating": 5,
+    "image": "https://ui-avatars.com/api/?name=Imran+Hossain&background=random"
+  },
+  {
+    "name": "Shorna Akter",
+    "university": "Daffodil International University",
+    "review": "Modern learning environment with lots of extracurricular opportunities. Career services are active.",
+    "date": "2024-06-30",
+    "rating": 4,
+    "image": "https://ui-avatars.com/api/?name=Shorna+Akter&background=random"
+  }
+]

@@ -1,17 +1,16 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import CarouselWithMultipleSlides from "@/components/pages/Home/Carousel";
+
+
+
 
 export default function Home() {
   return (
-    <div 
-    className="">
-      <main className="container mx-auto">
+    <div className="">
+      <main className="container mx-auto ">
+        
    
-
-  <Button>Shadcn Btn</Button>
-  <h1 className="bg-bermuda">
-    Bg Checking
-  </h1>
+  <CarouselWithMultipleSlides/>
+ 
       </main>
     
     </div>

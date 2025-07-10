@@ -6,6 +6,8 @@ export default async function page() {
         next:{revalidate:30}
     })
     const colleges=await res.json()
+    
+   
   return (
     <div className='container mx-auto'>
         <h1 className="text-center text-4xl font-bold">

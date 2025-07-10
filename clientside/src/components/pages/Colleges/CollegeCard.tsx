@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import Link from "next/link";
 interface College {
   id: string;
   name: string;
@@ -26,7 +27,7 @@ export default function CollegeCard({colleges}:{colleges:any[]}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 my-6 gap-6">
         {
-            colleges.map(college=><Card className="pt-0">
+            colleges.map(college=><Card key={college.id} className="pt-0">
    <figure className=" h-[200px] ">
     <img
     className="mt-0 h-full w-full object-cover rounded-t-md" 
@@ -43,7 +44,10 @@ export default function CollegeCard({colleges}:{colleges:any[]}) {
     {/* <p>Card Content</p> */}
   </CardContent>
   <CardFooter>
-   <Button className="bg-primarycolor">View Details</Button>
+    <Link href={`/colleges/${college.id}`}>
+       <Button className="bg-primarycolor">View Details</Button>
+    </Link>
+
   </CardFooter>
 </Card>)
         }
