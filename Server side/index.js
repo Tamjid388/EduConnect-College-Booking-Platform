@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection URL
-const uri = process.env.MONGODB_URI;
+const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.MONGODB_PASS}@cluster0.zovp9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -25,7 +25,7 @@ async function run() {
     await client.connect();
     console.log("Connected to MongoDB");
 
-    const db = client.db("authentication");
+    const db = client.db("educonnect_db");
     const collection = db.collection("users");
 
     // User Registration
@@ -89,6 +89,45 @@ async function run() {
         accessToken: token,
       });
     });
+
+
+//  Next auth Providers
+app.post("/api/v1/users", async (req, res) => {
+  const { name, email, image, provider } = req.body;
+
+  try {
+  
+
+   const existingUser = await collection.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: "User already exist!!!",
+        });
+      }
+  
+          // Insert user into the database
+      await collection.insertOne({
+        username:name,
+        email,
+        image,
+      
+        role: "user",
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "User registered successfully!",
+      });
+
+  
+  } catch (error) {
+    console.error("Error saving user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 
     // Start the server
     app.listen(port, () => {
