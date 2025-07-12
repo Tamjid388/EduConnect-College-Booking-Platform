@@ -5,6 +5,8 @@ import { Github } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 export type LoginData = {
   email: string;
@@ -78,12 +80,19 @@ const LoginPage = () => {
                 Register
               </Link>
             </p>
-            <div>
+            <div className="flex items-center gap-1 text-3xl">
                 <p onClick={()=>signIn("github",
                     {callbackUrl:'http://localhost:3000/'}
-                )} className="bg-black w-fit text-white 
+                )} className="  
                 rounded-full p-1">
-                    <Github />
+                    <FaGithub />
+                </p>
+                <p 
+                 onClick={()=>signIn("google",
+                    {callbackUrl:'http://localhost:3000/'}
+                )}
+                >
+                  <FcGoogle />
                 </p>
             </div>
           </form>
