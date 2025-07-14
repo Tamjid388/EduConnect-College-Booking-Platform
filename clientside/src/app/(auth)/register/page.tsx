@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { regesterUser } from "@/utils/actions/registerUser";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export type UserData = {
@@ -12,6 +14,7 @@ export type UserData = {
 };
 
 const RegisterPage = () => {
+    const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -22,6 +25,14 @@ const RegisterPage = () => {
     console.log(data);
 
     try {
+      const response=await regesterUser(data)
+         if (response?.success) {
+        console.log(" Registration successful!");
+        router.push("/");
+      } else {
+        console.error("❌ Registration failed:", response?.message);
+      }
+      
     } catch (err: any) {
       console.error(err.message);
       throw new Error(err.message);

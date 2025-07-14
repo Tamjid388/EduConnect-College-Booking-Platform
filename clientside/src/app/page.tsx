@@ -1,3 +1,4 @@
+import Demo from "@/components/Demo";
 import CarouselWithMultipleSlides from "@/components/pages/Home/Carousel";
 
 
@@ -10,7 +11,7 @@ export default function Home() {
         
    
   <CarouselWithMultipleSlides/>
- 
+ <Demo/>
       </main>
     
     </div>

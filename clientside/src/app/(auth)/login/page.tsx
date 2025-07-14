@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { loginUser } from "@/utils/actions/loginUser";
 import { Github } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -20,15 +22,35 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<LoginData>();
 
+
+const router=useRouter()
   const onSubmit = async (data: LoginData) => {
     console.log(data);
 
-    try {
-      // Call API or handle login logic here
-    } catch (err: any) {
-      console.error(err.message);
-      throw new Error(err.message);
-    }
+     try {
+        const response= await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`,
+           {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials:"include",
+    body: JSON.stringify(data),
+    
+        })
+        const userInfo = await response.json();
+           if (userInfo?.success) {
+          console.log(" login successful!");
+         
+          router.push("/");
+        } else {
+          console.error("login failed:", userInfo?.message);
+        }
+        
+      } catch (err: any) {
+      
+        throw new Error(err.message);
+      }
   };
 
   return (

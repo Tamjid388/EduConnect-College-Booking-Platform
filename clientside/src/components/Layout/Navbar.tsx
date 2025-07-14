@@ -3,7 +3,9 @@ import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/co
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { JSX, SVGProps } from "react"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
+import { AvatarDropDown } from "./AvatarDropDown"
+import useUnifiedUser from "@/hooks/useUnifiedUser"
 type User = {
   user?: {
     name?: string | null | undefined,
@@ -11,53 +13,51 @@ type User = {
     image?: string | null | undefined
   }
 }
-export default function NavBar({ session }: { session: User | null }) {
- const Menus=<>
-        <Link
-          href="/"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Home
-        </Link>
-        <Link
-          href="/colleges"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Colleges
-        </Link>
-        <Link
-          href="/admissions"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Admission
-        </Link>
-              
-       
-        {
-          session?.user? 
-          <button
-         onClick={()=>signOut()}
-          className="text-red-500 group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-red-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-         
-        >
-          Logout
-        </button>
-          :
-           <Link
-          href="/login"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Login
-        </Link>
-        }
-             </>
+export default function NavBar() {
+const { user, loading, source } = useUnifiedUser();
+
+ const Menus = <>
+  <Link href="/" className="...">Home</Link>
+  <Link href="/colleges" className="...">Colleges</Link>
+  <Link href="/admissions" className="...">Admission</Link>
+
+  {loading ? (
+    <div className="text-sm text-gray-500">Loading...</div>
+  ) : user ? (
+    <div className="flex items-center gap-3 flex-col md:flex-row">
+      <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+         {user.name || user.email}
+      </span>
+      <button
+        onClick={() => {
+          if (source === "nextauth") {
+            signOut();
+          } else {
+            fetch("/api/v1/logout", {
+              method: "POST",
+              credentials: "include",
+            }).then(() => window.location.reload());
+          }
+        }}
+        className="text-red-500 group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-2 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-red-700 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50"
+      >
+        Logout
+      </button>
+      {/* <AvatarDropDown /> */}
+    </div>
+  ) : (
+    <Link
+      href="/login"
+      className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50"
+    >
+      Login
+    </Link>
+  )}
+</>
+
  
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+    <header className="container mx-auto flex h-20 w-full shrink-0 items-center px-4 md:px-6">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="lg:hidden">
