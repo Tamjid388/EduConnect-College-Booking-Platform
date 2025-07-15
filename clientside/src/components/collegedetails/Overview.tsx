@@ -8,6 +8,6 @@ type Props={
 export default function Overview({mycollege}:Props) {
     
   return (
-    <div>Overview</div>
+    <div>Overview {mycollege.name}</div>
   )
 }

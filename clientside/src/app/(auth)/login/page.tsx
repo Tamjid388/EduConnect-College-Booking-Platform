@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { loginUser } from "@/utils/actions/loginUser";
-import { Github } from "lucide-react";
+
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,7 +18,7 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+   
   } = useForm<LoginData>();
 
 
@@ -42,6 +41,8 @@ const router=useRouter()
            if (userInfo?.success) {
           console.log(" login successful!");
          
+          
+          window.location.reload()
           router.push("/");
         } else {
           console.error("login failed:", userInfo?.message);

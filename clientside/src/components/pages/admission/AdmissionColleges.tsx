@@ -38,7 +38,7 @@ export default function AdmissionColleges({colleges}:Props) {
     {/* <p>Card Content</p> */}
   </CardContent>
   <CardFooter>
-    <Link href={`/colleges/${college.id}`}>
+    <Link href={`/admissions/${college.id}`}>
        <Button className="bg-primarycolor">
         Apply</Button>
     </Link>

@@ -1,4 +1,5 @@
 import Overview from '@/components/collegedetails/Overview';
+import { University } from '@/types/university';
 import React from 'react'
 
 
@@ -15,7 +16,7 @@ const res=await fetch('http://localhost:3000/colleges.json',{
     })
     const colleges=await res.json()
 
-     const mycollege=colleges.find((college:any)=>college.id===id)
+     const mycollege=colleges.find((college:University)=>college.id===id)
      console.log(mycollege);
   return (
     <div className='container mx-auto'>

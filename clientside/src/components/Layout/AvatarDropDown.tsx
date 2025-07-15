@@ -1,13 +1,12 @@
 "use client";
-import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+
 import useUnifiedUser from "@/hooks/useUnifiedUser";
 import useCurrentUser from "@/hooks/useCurrentuser";
+import avatar from "../../../public/avatar.jpg"
 
 export const AvatarDropDown = () => {
-//  const { user, loading, source } = useUnifiedUser();
-const {user}=useCurrentUser()
+ const { user } = useUnifiedUser();
+
   //  if (loading) return <p>Loading...</p>;
   if (!user) return <p>Please login</p>;
 
@@ -20,12 +19,15 @@ console.log(user);
 
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 border p-1">
+            <span className="font-medium text-sm">{user.email}</span>
       <div className="w-10 h-10 
       rounded-full bg-gray-300 flex items-center justify-center text-white font-bold">
-          {/* <img className="rounded-full h-full" src={user?.image} alt="" /> */}
+          {/* <img 
+          className="rounded-full h-full"
+           src={avatar} alt="" /> */}
       </div>
-      <span className="font-medium text-sm">{user.email}</span>
+
     </div>
   );
 };

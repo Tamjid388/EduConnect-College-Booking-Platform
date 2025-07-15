@@ -15,25 +15,24 @@ type User = {
 }
 export default function NavBar() {
 const { user, loading, source } = useUnifiedUser();
+console.log(user);
 
- const Menus = <>
-  <Link href="/" className="...">Home</Link>
-  <Link href="/colleges" className="...">Colleges</Link>
-  <Link href="/admissions" className="...">Admission</Link>
+ const Menus = <div className="flex items-center">
+  <Link href="/"  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Home</Link>
+  <Link href="/colleges"  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Colleges</Link>
+  <Link href="/admissions"   className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Admission</Link>
 
   {loading ? (
     <div className="text-sm text-gray-500">Loading...</div>
   ) : user ? (
     <div className="flex items-center gap-3 flex-col md:flex-row">
-      <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
-         {user.name || user.email}
-      </span>
+     
       <button
         onClick={() => {
           if (source === "nextauth") {
             signOut();
           } else {
-            fetch("/api/v1/logout", {
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signout`, {
               method: "POST",
               credentials: "include",
             }).then(() => window.location.reload());
@@ -43,7 +42,7 @@ const { user, loading, source } = useUnifiedUser();
       >
         Logout
       </button>
-      {/* <AvatarDropDown /> */}
+      <AvatarDropDown />
     </div>
   ) : (
     <Link
@@ -53,7 +52,7 @@ const { user, loading, source } = useUnifiedUser();
       Login
     </Link>
   )}
-</>
+</div>
 
  
   return (
