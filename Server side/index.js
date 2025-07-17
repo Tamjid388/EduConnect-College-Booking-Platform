@@ -3,7 +3,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const jwt = require("jsonwebtoken");
 
 const app = express();
@@ -14,6 +14,9 @@ app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials:true
 }));
+
+
+
 app.use(express.json());
 app.use(cookieParser());
 // MongoDB Connection URL
@@ -33,7 +36,7 @@ async function run() {
     const collection = db.collection("users");
     const collegeCollection=db.collection("colleges")
     const applicationCollection = db.collection("myapplication");
-
+    const reviewCollection=db.collection('reviewCollection')
     // User Registration
     app.post("/api/v1/register", async (req, res) => {
       const { username, email, password } = req.body;
@@ -89,12 +92,12 @@ async function run() {
         }
       );
 
-        // ✅ Set the token in an HTTP-only cookie
+        //  Set the token in an HTTP-only cookie
 res.cookie("accessToken", token, {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax",
-  maxAge: 24 * 60 * 60 * 1000, // 1 day
+  maxAge: 24 * 60 * 60 * 1000, 
 });
 
       res.json({
@@ -213,6 +216,72 @@ app.post("/api/v1/users", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+// Get User By email
+
+app.get("/api/v1/users/:email", async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    const user = await collection.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+});
+
+app.patch("/api/v1/users/:email", async (req, res) => {
+  const email = req.params.email;
+  const updateData = req.body;
+
+  try {
+    const result = await collection.updateOne(
+      { email }, // filter by email
+      { $set: updateData } // fields to update
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+});
+
+
+
+
+
+
+
 
 
 // GET all colleges
@@ -229,10 +298,27 @@ app.get("/api/v1/colleges", async (req, res) => {
 app.post('/api/v1/applications',async(req,res)=>{
 try {
   const body=req.body
-console.log(body)
-const applications=await applicationCollection.insertOne(body)
+  const { collegeId } = body;
+const college=await collegeCollection.findOne(
+  {_id:new ObjectId(collegeId)})
 
-   res.status(200).json({
+  if (!college) {
+      return res.status(404).json({
+        success: false,
+        message: 'College not found with this ID',
+      });
+    }
+  const applicationData={
+    ...body,
+    collegeName:college.name,
+    collegeLocation:college.location,
+    students:college.students,
+    collegeImage:college.image,
+    papers:college.researchCount
+  }
+const applications=await applicationCollection.insertOne(applicationData)
+
+  res.status(200).json({
       success: true,
       data: body,
     });
@@ -268,6 +354,84 @@ app.get('/api/v1/applications',async(req,res)=>{
 })
 
 // Get applications by email
+app.get('/api/v1/myapplications/:email',async(req,res)=>{
+ try {
+  const email=req.params.email;
+ 
+ 
+   const allApplications=await applicationCollection.find({email}).toArray()
+   res.status(200).json({
+     success: true,
+      data: allApplications,
+  
+  
+    })
+ } catch (error) {
+    res.status(500).json(
+    {
+      success: false,
+      message: 'Failed to fetch applications',
+      error: error.message,
+    }
+  )
+ }
+
+})
+// Add Review
+
+app.post('/api/v1/addreview', async (req, res) => {
+  try {
+    const reviewData = req.body;
+
+    
+    const result = await reviewCollection.insertOne({
+      ...reviewData,
+      date: new Date() 
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Review added successfully",
+      data: result,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+});
+
+app.get('/api/v1/reviews', async (req, res) => {
+  try {
+    const reviews = await reviewCollection.find().toArray();
+
+    res.status(200).json({
+      success: true,
+      data: reviews,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 
