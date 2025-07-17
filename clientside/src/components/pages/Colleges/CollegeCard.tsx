@@ -9,22 +9,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { University } from "@/types/university";
 import Link from "next/link";
-interface College {
-  id: string;
-  name: string;
-  image: string;
-  rating: number;
-  admissionDate: string;
-  researchCount: number;
-  location?:string
-  // add other fields as needed
-}
+
 
 interface CollegeCardProps {
-  colleges: College[];
+  colleges: University[];
 }
 export default function CollegeCard({colleges}:CollegeCardProps) {
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 my-6 gap-6">
         {
@@ -38,7 +31,7 @@ export default function CollegeCard({colleges}:CollegeCardProps) {
   <CardHeader className="">
     
     <CardTitle>{college.name}</CardTitle>
-    <CardDescription>{college?.location}</CardDescription>
+    <CardDescription>{college.location}</CardDescription>
     {/* <CardAction>Card Action</CardAction> */}
   </CardHeader>
   <CardContent>

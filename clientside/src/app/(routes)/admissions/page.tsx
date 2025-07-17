@@ -9,7 +9,7 @@ export default async function page() {
     const { data: colleges }=await res.json()
    
   return (
-    <div className='container mx-auto'>
+    <div className='container mx-auto border rounded-2xl p-2'>
         <AdmissionColleges colleges={colleges}/>
     </div>
   )

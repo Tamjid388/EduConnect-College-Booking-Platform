@@ -17,8 +17,10 @@ type Props = {
   colleges: University[];
 };
 export default function AdmissionColleges({colleges}:Props) {
+  console.log(colleges);
   return (
     <div>
+      <h1 className="text-3xl font-bold">Available Colleges</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 my-6 gap-6">
         {
             colleges.map(college=><Card key={college.id} className="pt-0">
@@ -31,19 +33,13 @@ export default function AdmissionColleges({colleges}:Props) {
   <CardHeader className="">
     
     <CardTitle>{college.name}</CardTitle>
-    <CardDescription>{college.location}</CardDescription>
-    {/* <CardAction>Card Action</CardAction> */}
+    <CardDescription>
+      <span className="font-medium">Admission Date:</span>
+      {college.admissionDate}</CardDescription>
+   
   </CardHeader>
-  <CardContent>
-    {/* <p>Card Content</p> */}
-  </CardContent>
-  <CardFooter>
-    <Link href={`/admissions/${college.id}`}>
-       <Button className="bg-primarycolor">
-        Apply</Button>
-    </Link>
 
-  </CardFooter>
+
 </Card>)
         }
     </div>
