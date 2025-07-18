@@ -15,13 +15,19 @@ type User = {
 }
 export default function NavBar() {
 const { user, loading, source } = useUnifiedUser();
-console.log(user);
+
 
  const Menus = <div className="flex items-center">
-  <Link href="/"  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Home</Link>
+  <Link href="/" 
+   className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4
+    py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Home</Link>
   <Link href="/colleges"  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Colleges</Link>
   <Link href="/admissions"   className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Admission</Link>
-
+  {
+    user && <Link href="/mycollege" 
+   className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4
+    py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">My College</Link>
+  }
   {loading ? (
     <div className="text-sm text-gray-500">Loading...</div>
   ) : user ? (

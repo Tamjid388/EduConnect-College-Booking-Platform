@@ -13,6 +13,7 @@ export type Event = {
 
 export type University = {
   id: string;
+  _id?:string;
   name: string;
   location: string;
   image: string;
@@ -29,3 +30,14 @@ export type University = {
     sports: string[];
   };
 };
+
+export type ApplicationFormData = {
+  candidateName: string;
+  subjectMajor: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  dateOfBirth: string;      
+  profileImageURL?: string; 
+};
+

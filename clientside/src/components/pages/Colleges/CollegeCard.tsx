@@ -17,7 +17,10 @@ interface CollegeCardProps {
   colleges: University[];
 }
 export default function CollegeCard({colleges}:CollegeCardProps) {
-  
+  if (!colleges.length) {
+  return <p className="text-center text-gray-500">No colleges found.</p>;
+}
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 my-6 gap-6">
         {
@@ -32,10 +35,10 @@ export default function CollegeCard({colleges}:CollegeCardProps) {
     
     <CardTitle>{college.name}</CardTitle>
     <CardDescription>{college.location}</CardDescription>
-    {/* <CardAction>Card Action</CardAction> */}
+   
   </CardHeader>
   <CardContent>
-    {/* <p>Card Content</p> */}
+  
   </CardContent>
   <CardFooter>
     <Link href={`/colleges/${college.id}`}>

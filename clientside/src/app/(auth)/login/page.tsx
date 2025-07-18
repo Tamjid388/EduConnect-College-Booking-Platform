@@ -24,7 +24,7 @@ const LoginPage = () => {
 
 const router=useRouter()
   const onSubmit = async (data: LoginData) => {
-    console.log(data);
+    
 
      try {
         const response= await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`,

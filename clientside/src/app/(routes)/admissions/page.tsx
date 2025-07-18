@@ -1,4 +1,5 @@
 import AdmissionColleges from '@/components/pages/admission/AdmissionColleges';
+import Applicationprocess from '@/components/pages/admission/Applicationprocess';
 import React from 'react'
 
 export default async function page() {
@@ -7,9 +8,10 @@ export default async function page() {
         next:{revalidate:30}
     })
     const { data: colleges }=await res.json()
-   
+   console.log(colleges);
   return (
     <div className='container mx-auto border rounded-2xl p-2'>
+        <Applicationprocess/>
         <AdmissionColleges colleges={colleges}/>
     </div>
   )

@@ -1,17 +1,22 @@
 "use client";
 
 import useUnifiedUser from "@/hooks/useUnifiedUser";
-import useCurrentUser from "@/hooks/useCurrentuser";
-import avatar from "../../../public/avatar.jpg"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import Link from "next/link";
 
 export const AvatarDropDown = () => {
  const { user } = useUnifiedUser();
 
-  //  if (loading) return <p>Loading...</p>;
   if (!user) return <p>Please login</p>;
 
-console.log(user);
-  console.log("User",user);
+
 
 
 
@@ -19,15 +24,20 @@ console.log(user);
 
 
   return (
-    <div className="flex items-center gap-2 border p-1">
-            <span className="font-medium text-sm">{user.email}</span>
-      <div className="w-10 h-10 
-      rounded-full bg-gray-300 flex items-center justify-center text-white font-bold">
-          {/* <img 
-          className="rounded-full h-full"
-           src={avatar} alt="" /> */}
-      </div>
 
-    </div>
+    <DropdownMenu >
+      <DropdownMenuTrigger>
+        <div>
+           <span className="font-medium text-sm border-1 py-2 px-1 rounded-xl">{user.email}</span>
+        </div>
+
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+       
+         <DropdownMenuItem>
+          <Link href="/profile"> Profile</Link>
+         </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };

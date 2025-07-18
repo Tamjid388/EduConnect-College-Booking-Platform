@@ -20,6 +20,10 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+         // ✅ Add this new custom gradient variant
+  gradient: "bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white",
+     gradientOutline:
+    "border border-orange-500 text-orange-600 bg-transparent hover:bg-orange-50 dark:hover:bg-orange-900/10 transition-colors",  
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

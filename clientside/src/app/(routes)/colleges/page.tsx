@@ -1,13 +1,13 @@
 import CollegeCard from "@/components/pages/Colleges/CollegeCard"
 
 export default async function page() {
-    const res=await fetch('http://localhost:3000/colleges.json',{
+    const res=await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/colleges`,{
         cache:'force-cache',
         next:{revalidate:30}
     })
-    const colleges=await res.json()
-    
-   
+    const allcollege=await res.json()
+   let colleges=allcollege.data
+   console.log(colleges);
   return (
     <div className='container mx-auto'>
         <h1 className="text-center text-4xl font-bold">

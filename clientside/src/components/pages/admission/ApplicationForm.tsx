@@ -1,22 +1,45 @@
 "use client";
-
-import { useForm } from "react-hook-form";
+import axios from "axios"
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useUnifiedUser from "@/hooks/useUnifiedUser";
+import CustomLoader from "@/components/Loader/CustomLoader";
+import { ApplicationFormData } from "@/types/university";
+import { toast } from "sonner";
 
 export default function ApplicationForm({ id }: { id: string }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
-
-  const onSubmit = (data: unknown) => {
+  } =  useForm<ApplicationFormData>();
+  const { user, loading, source } = useUnifiedUser();
+  
+  const onSubmit:SubmitHandler<ApplicationFormData> = async(data) => {
     console.log(data);
-    // Handle form submission here
-  };
+    const admissiondata={
+      ...data,
+      collegeId:id
+    }
+    try {
+      const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/applications`,
+      admissiondata
+    );
 
+    toast("Application submitted")
+    reset()
+    } catch (error) {
+       toast("Submission failed")
+    }
+
+  };
+if(loading){
+  return <CustomLoader/>
+}
   return (
     <form onSubmit={handleSubmit(onSubmit)}
       className="space-y-4 border p-4">
@@ -45,6 +68,7 @@ export default function ApplicationForm({ id }: { id: string }) {
         <Input
           id="email"
           type="email"
+          defaultValue={user?.email ?? ""}
           placeholder="e.g. john@example.com"
           {...register("email", { required: true })}
         />
@@ -92,9 +116,13 @@ export default function ApplicationForm({ id }: { id: string }) {
         />
       </div>
 
-      <Button type="submit" className="w-full bg-blue-500 text-white">
+      <Button
+       variant={'gradient'}
+        type="submit" 
+        className="w-full ">
         Submit Application
       </Button>
+     
     </form>
   );
 }
