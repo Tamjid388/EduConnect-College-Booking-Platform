@@ -7,7 +7,7 @@ export default async function page() {
     })
     const allcollege=await res.json()
    let colleges=allcollege.data
-   console.log(colleges);
+
   return (
     <div className='container mx-auto'>
         <h1 className="text-center text-4xl font-bold">

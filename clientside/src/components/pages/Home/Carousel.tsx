@@ -7,13 +7,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-
-
 import testimonial from "../../../../public/testimonial.json";
 import { Star } from "lucide-react";
 export default async function CarouselWithMultipleSlides() {
   return (
-    <div className="">
+    <div className="my-12 ">
+      <h1 className="text-4xl font-bold text-center mb-6">Student Reviews</h1>
       <Carousel
         opts={{
           align: "start",

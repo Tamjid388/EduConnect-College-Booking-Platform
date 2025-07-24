@@ -6,6 +6,39 @@ import { Erica_One } from "next/font/google";
 export const authOptions:NextAuthOptions = {
 
   providers: [
+ CredentialsProvider({
+    // The name to display on the sign in form (e.g. 'Sign in with...')
+    name: 'Credentials',
+    // The credentials is used to generate a suitable form on the sign in page.
+    // You can specify whatever fields you are expecting to be submitted.
+    // e.g. domain, username, password, 2FA token, etc.
+    // You can pass any HTML attribute to the <input> tag through the object.
+    credentials: {
+     
+      password: { label: "Password", type: "password" },
+      email: { label: "Email", type: "email" }
+    },
+    async authorize(credentials, req) {
+     console.log(credentials);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+        headers: { "Content-Type": "application/json" }
+      })
+      const user = await res.json()
+      console.log("Login response user:", user);
+      // If no error and we have user data, return it
+      if (res.ok && user) {
+        return user
+      }
+      // Return null if user data could not be retrieved
+      return null
+    }
+  })
+
+
+
+    ,
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
@@ -20,7 +53,7 @@ export const authOptions:NextAuthOptions = {
      
     async signIn({ user }){
       try {
-       const res= await fetch("http://localhost:5000/api/v1/social-login", {
+       const res= await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/social-login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -43,7 +76,31 @@ export const authOptions:NextAuthOptions = {
             console.error("Error saving user to DB:", error);
         return false;
       }
+    },
+    
+
+    async jwt({token,user,account,profile}){
+      if(user){
+         
+        token.email = user.email;
+        
+        token.name = (user as any).username;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+    if (token && session.user) {
+      
+      session.user.email = token.email;
+      
+      session.user.name = token.name;
     }
+    return session;
+  }
+    
+
+
+    
   },
 
   pages: {
@@ -53,37 +110,5 @@ export const authOptions:NextAuthOptions = {
   secret:process.env.NEXTAUTH_SECRET
 
 
-//      providers:[
-//           CredentialsProvider({
-//                   id:"credentials",
-//                    name: 'Credentials',
-//                     credentials: {
-//         email: { label: "Email", type: "text", placeholder: "jsmith" },
-//         password: { label: "Password", type: "password" }
-//       },
 
-//       async authorize(credentials:any):Promise<any>{
-// const res = await fetch("/your/endpoint", {
-//         method: 'POST',
-//         body: JSON.stringify({
-//       email: credentials.email, 
-//       password: credentials.password,
-//     }),
-//         headers: { "Content-Type": "application/json" }
-//       })
-//       const user = await res.json()
-      
-//     if(!user){
-//       throw new Error("No User found")
-//     }
-    
-//     if(!user.isVerified){
-//       throw new Error("Please Verify YOur account")
-//     }
-    
-    
-    
-//     }
-//           })
-//       ]
 }

@@ -6,6 +6,7 @@ import { JSX, SVGProps } from "react"
 import { signOut, useSession } from "next-auth/react"
 import { AvatarDropDown } from "./AvatarDropDown"
 import useUnifiedUser from "@/hooks/useUnifiedUser"
+import AvatarSkilton from "../Loader/AvatarSkilton"
 type User = {
   user?: {
     name?: string | null | undefined,
@@ -14,8 +15,10 @@ type User = {
   }
 }
 export default function NavBar() {
-const { user, loading, source } = useUnifiedUser();
+const {data: session, status}=useSession()
+const isLoading = status === "loading";
 
+const user = session?.user;
 
  const Menus = <div className="flex items-center">
   <Link href="/" 
@@ -23,41 +26,30 @@ const { user, loading, source } = useUnifiedUser();
     py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Home</Link>
   <Link href="/colleges"  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Colleges</Link>
   <Link href="/admissions"   className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">Admission</Link>
-  {
-    user && <Link href="/mycollege" 
-   className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4
-    py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">My College</Link>
-  }
-  {loading ? (
-    <div className="text-sm text-gray-500">Loading...</div>
-  ) : user ? (
-    <div className="flex items-center gap-3 flex-col md:flex-row">
-     
-      <button
-        onClick={() => {
-          if (source === "nextauth") {
-            signOut();
-          } else {
-            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signout`, {
-              method: "POST",
-              credentials: "include",
-            }).then(() => window.location.reload());
-          }
-        }}
-        className="text-red-500 group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-2 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-red-700 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50"
-      >
-        Logout
-      </button>
-      <AvatarDropDown />
-    </div>
-  ) : (
-    <Link
-      href="/login"
-      className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50"
-    >
-      Login
-    </Link>
-  )}
+  
+  {isLoading ? (
+        <AvatarSkilton/>
+      ) : user ? (
+        <>
+          <Link
+            href="/mycollege"
+            className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 ml-2"
+          >
+            My College
+          </Link>
+          <AvatarDropDown />
+        </>
+      ) : (
+        <Link
+          href="/login"
+          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 ml-2"
+        >
+          Login
+        </Link>
+      )}
+
+   
+ 
 </div>
 
  

@@ -7,7 +7,10 @@ export const SearchColleges = async () => {
     cache: "force-cache",
     next: { revalidate: 30 },
   });
-  const colleges = await res.json();
+  const {data} = await res.json();
+ 
+ let colleges=data
+  console.log(colleges);
   return (
     <div>
       <Search colleges={colleges}/>

@@ -26,7 +26,7 @@ export type University = {
   gallery: string[];
   details: {
     description: string;
-    events: Event[];
+    events: string[];
     sports: string[];
   };
 };

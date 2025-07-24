@@ -41,7 +41,7 @@ export default function CollegeCard({colleges}:CollegeCardProps) {
   
   </CardContent>
   <CardFooter>
-    <Link href={`/colleges/${college.id}`}>
+    <Link href={`/colleges/${college._id}`}>
        <Button className="bg-primarycolor">View Details</Button>
     </Link>
 

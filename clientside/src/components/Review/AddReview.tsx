@@ -24,7 +24,7 @@ type Props = {
 export default function AddReview({ app }: Props) {
   const [rating, setRating] = useState(0);
   const [description, setDescription] = useState("");
-console.log(app);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Review submitted:", {

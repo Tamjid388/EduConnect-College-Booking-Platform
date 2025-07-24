@@ -14,7 +14,7 @@ type Props = {
   colleges: University[];
 };
 export default function AdmissionColleges({ colleges }: Props) {
-  console.log(colleges);
+  
   return (
     <div>
       <h1 className="text-3xl font-bold">

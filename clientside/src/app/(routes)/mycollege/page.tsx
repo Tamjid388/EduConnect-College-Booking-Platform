@@ -6,15 +6,17 @@ import { Button } from "@/components/ui/button";
 import CustomLoader from "@/components/Loader/CustomLoader";
 import { Star } from "lucide-react";
 import AddReview from "@/components/Review/AddReview";
+import useUnifiedUser from "@/hooks/useUnifiedUser";
 export default function mycollege() {
       const [applications, setApplications] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-
+const {user}=useUnifiedUser()
+console.log(user?.email);
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/myapplications/tamjidahmed388@gmail.com`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/myapplications/${user?.email}`
         );
         setApplications(res.data);
       } catch (error) {
@@ -27,22 +29,21 @@ export default function mycollege() {
     fetchApplications();
   }, []);
   const myApplications=applications?.data
+  console.log(myApplications);
 
    if (loading) return <CustomLoader/>
 
-  if (myApplications.length === 0) return <p className="text-red-500 my-16 text-4xl">No applications found.</p>;
+  // if (myApplications.length === 0) return <p className="text-red-500 my-16 text-4xl">No applications found.</p>;
  
   return (
     <div className='max-w-6xl mx-auto'>
         <h1 className="text-2xl font-bold mb-4">My Applications</h1>
      
-   
+{/*    
       <ul className="space-y-4">
         {myApplications.map((app:any, index:string) => (
          <div  key={index} className="flex border flex-row">
-             {/* <div className="w-4/12">
-            Lorem ipsum dolor sit.
-          </div> */}
+         
              <div
            
             className="border rounded p-4 w-12/12
@@ -77,7 +78,7 @@ export default function mycollege() {
          
          
         ))}
-      </ul>
+      </ul> */}
         
      </div>
   )
